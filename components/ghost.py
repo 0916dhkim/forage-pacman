@@ -31,3 +31,6 @@ class Ghost:
         else:
             selected_option = choice(self.options)
             self._aim = selected_option.copy()
+
+    def on_delete(self):
+        self._dot_renderer.on_delete()

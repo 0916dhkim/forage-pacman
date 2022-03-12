@@ -93,8 +93,12 @@ class World:
                 collision_list.append(ghost)
         return collision_list
 
+    def remove_ghost(self, ghost: Ghost):
+        self.ghosts.remove(ghost)
+        ghost.on_delete()
+
     def on_collision(self, ghost: Ghost):
-        self._game_over = True
+        self.remove_ghost(ghost)
 
     def handle_event_loop(self):
         self.update_children()
