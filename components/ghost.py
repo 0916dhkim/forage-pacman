@@ -5,7 +5,6 @@ from components.dot_renderer import DotRenderer
 from update_context import UpdateContext
 
 
-
 class Ghost:
     options = [
         vector(5, 0),
@@ -31,6 +30,6 @@ class Ghost:
 
     def on_delete(self):
         self._dot_renderer.on_delete()
-    
+
     def clone(self) -> Ghost:
         return Ghost(self._position.copy(), -self._aim.copy())

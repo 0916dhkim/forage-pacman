@@ -2,6 +2,7 @@ import turtle
 from typing import List
 from freegames import vector, floor
 
+
 class TileMap:
     def __init__(self, tiles: List[int]):
         self._tiles = tiles
@@ -63,7 +64,7 @@ class TileMap:
                 self.render_tile(index)
                 if tile == 1:
                     self.render_dot(index)
-                
+
     def has_dots(self):
         """True if there is any dots left on this tile map."""
         return any(tile == 1 for tile in self._tiles)

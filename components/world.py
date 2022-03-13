@@ -28,8 +28,6 @@ class World:
         self._max_ghosts = MAX_GHOST_MULTIPLIER * len(self.ghosts)
         self._ghost_multiply_counter = GHOST_MULTIPLY_COUNTER
 
-
-
     def increment_score(self):
         self.score += 1
 
@@ -74,7 +72,6 @@ class World:
         self.update_children()
         self.render_children()
 
-        
         if self._ghost_multiply_counter <= 0:
             self._ghost_multiply_counter = GHOST_MULTIPLY_COUNTER
             self.multiply_ghosts()
