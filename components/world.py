@@ -6,6 +6,9 @@ from freegames import vector, floor
 
 from components.text_renderer import TextRenderer
 
+GHOST_MULTIPLY_COUNTER = 300
+MAX_GHOST_MULTIPLIER = 32
+
 
 class World:
     def __init__(
@@ -21,8 +24,9 @@ class World:
         self.text_renderer = text_renderer
         self.score = 0
 
-        self._game_over = False
+        self._max_ghosts = MAX_GHOST_MULTIPLIER * len(self.ghosts)
         self._turtle = turtle.Turtle(visible=False)
+        self._ghost_multiply_counter = GHOST_MULTIPLY_COUNTER
 
     def find_tile_index(self, position: vector) -> int:
         """Return offset of point in tiles."""
@@ -100,14 +104,32 @@ class World:
     def on_collision(self, ghost: Ghost):
         self.remove_ghost(ghost)
 
+    def multiply_ghosts(self):
+        clones = list(map(lambda ghost: ghost.clone(), self.ghosts))
+        self.ghosts += clones
+
+    def is_game_over(self):
+        if len(self.ghosts) >= self._max_ghosts:
+            return True
+        if all(tile != 1 for tile in self.tiles):
+            return True
+        return False
+
     def handle_event_loop(self):
         self.update_children()
         self.render_children()
 
+        
+        if self._ghost_multiply_counter <= 0:
+            self._ghost_multiply_counter = GHOST_MULTIPLY_COUNTER
+            self.multiply_ghosts()
+        self._ghost_multiply_counter -= 1
+
         collision_list = self.check_collision()
         for ghost in collision_list:
             self.on_collision(ghost)
-        if self._game_over:
+
+        if self.is_game_over():
             return
 
         # Repeat on timer.

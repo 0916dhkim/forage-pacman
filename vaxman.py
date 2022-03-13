@@ -42,8 +42,6 @@ world = World(
     # fmt: on
     ghosts=[
         Ghost(vector(-180, 160), vector(5, 0)),
-        Ghost(vector(-180, -160), vector(0, 5)),
-        Ghost(vector(100, 160), vector(0, -5)),
         Ghost(vector(100, -160), vector(-5, 0)),
     ],
     player=Player(vector(-40, -80), vector(5, 0)),

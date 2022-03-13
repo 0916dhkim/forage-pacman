@@ -34,3 +34,6 @@ class Ghost:
 
     def on_delete(self):
         self._dot_renderer.on_delete()
+    
+    def clone(self) -> Ghost:
+        return Ghost(self._position.copy(), -self._aim.copy())
