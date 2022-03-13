@@ -1,11 +1,7 @@
-from __future__ import annotations
+from components.tile_map import TileMap
+from update_context import UpdateContext
 from freegames import vector
 from components.dot_renderer import DotRenderer
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from components.world import World
 
 
 class Player:
@@ -17,17 +13,17 @@ class Player:
     def render(self):
         self._dot_renderer.render(self._position)
 
-    def update(self, world: World):
-        if world.valid(self._position + self._aim):
+    def update(self, context: UpdateContext):
+        if context.tile_map.valid(self._position + self._aim):
             self._position += self._aim
-        tile_index = world.find_tile_index(self._position)
-        if world.tiles[tile_index] == 1:
-            world.tiles[tile_index] = 2
-            world.score += 1
+        tile_index = context.tile_map.find_tile_index(self._position)
+        if context.tile_map.get(tile_index) == 1:
+            context.tile_map.set(tile_index, 2)
+            context.on_score()
             x = (tile_index % 20) * 20 - 200
             y = 180 - (tile_index // 20) * 20
-            world.render_square(x, y)
+            context.tile_map.render_square(x, y)
 
-    def change_aim(self, x, y, world: World):
-        if world.valid(self._position + vector(x, y)):
+    def change_aim(self, x, y, tile_map: TileMap):
+        if tile_map.valid(self._position + vector(x, y)):
             self._aim = vector(x, y)
