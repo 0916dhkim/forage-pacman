@@ -2,7 +2,7 @@ import turtle
 from freegames import vector
 
 
-class DotRenderer:
+class CircleRenderer:
     def __init__(self, color):
         self._turtle = turtle.Turtle(visible=False)
         self._color = color

@@ -1,17 +1,17 @@
 from components.tile_map import TileMap
 from update_context import UpdateContext
 from freegames import vector
-from components.dot_renderer import DotRenderer
+from components.circle_renderer import CircleRenderer
 
 
 class Player:
     def __init__(self, position: vector, aim: vector):
         self._position = position
         self._aim = aim
-        self._dot_renderer = DotRenderer("yellow")
+        self._circle_renderer = CircleRenderer("yellow")
 
     def render(self):
-        self._dot_renderer.render(self._position)
+        self._circle_renderer.render(self._position)
 
     def update(self, context: UpdateContext):
         if context.tile_map.valid(self._position + self._aim):
@@ -20,8 +20,6 @@ class Player:
         if context.tile_map.get(tile_index) == 1:
             context.tile_map.set(tile_index, 2)
             context.on_score()
-            x = (tile_index % 20) * 20 - 200
-            y = 180 - (tile_index // 20) * 20
             context.tile_map.render_tile(tile_index)
 
     def change_aim(self, x, y, tile_map: TileMap):

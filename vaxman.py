@@ -10,12 +10,12 @@ Exercises
 """
 
 from components.text_renderer import TextRenderer
-from components.world import World
+from components.game import Game
 from components.ghost import Ghost
 from components.player import Player
 from freegames import vector
 
-world = World(
+game = Game(
     # fmt: off
     tiles = [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -45,7 +45,7 @@ world = World(
         Ghost(vector(100, -160), vector(-5, 0)),
     ],
     player=Player(vector(-40, -80), vector(5, 0)),
-    text_renderer=TextRenderer(160, 160, "white"),
+    text_renderer=TextRenderer(vector(160, 160), "white"),
 )
 
-world.init()
+game.start()

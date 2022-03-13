@@ -1,7 +1,7 @@
 from __future__ import annotations
 from freegames import vector
 from random import choice
-from components.dot_renderer import DotRenderer
+from components.circle_renderer import CircleRenderer
 from update_context import UpdateContext
 
 
@@ -16,10 +16,10 @@ class Ghost:
     def __init__(self, spawn_position: vector, aim: vector):
         self._position = spawn_position
         self._aim = aim
-        self._dot_renderer = DotRenderer("red")
+        self._circle_renderer = CircleRenderer("red")
 
     def render(self):
-        self._dot_renderer.render(self._position)
+        self._circle_renderer.render(self._position)
 
     def update(self, context: UpdateContext):
         if context.tile_map.valid(self._position + self._aim):
@@ -29,7 +29,7 @@ class Ghost:
             self._aim = selected_option.copy()
 
     def on_delete(self):
-        self._dot_renderer.on_delete()
+        self._circle_renderer.on_delete()
 
     def clone(self) -> Ghost:
         return Ghost(self._position.copy(), -self._aim.copy())

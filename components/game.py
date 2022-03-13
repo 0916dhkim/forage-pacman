@@ -11,7 +11,7 @@ GHOST_MULTIPLY_COUNTER = 300
 MAX_GHOST_MULTIPLIER = 32
 
 
-class World:
+class Game:
     def __init__(
         self,
         tiles: List[int],
@@ -27,6 +27,20 @@ class World:
 
         self._max_ghosts = MAX_GHOST_MULTIPLIER * len(self.ghosts)
         self._ghost_multiply_counter = GHOST_MULTIPLY_COUNTER
+
+    def start(self):
+        """Setup environment and start the event loop."""
+        turtle.setup(420, 420, 370, 0)
+        turtle.hideturtle()
+        turtle.tracer(False)
+        turtle.listen()
+        turtle.onkey(lambda: self.player.change_aim(5, 0, self.tile_map), "Right")
+        turtle.onkey(lambda: self.player.change_aim(-5, 0, self.tile_map), "Left")
+        turtle.onkey(lambda: self.player.change_aim(0, 5, self.tile_map), "Up")
+        turtle.onkey(lambda: self.player.change_aim(0, -5, self.tile_map), "Down")
+        self.tile_map.render_background()
+        self.handle_event_loop()
+        turtle.done()
 
     def increment_score(self):
         self.score += 1
@@ -55,13 +69,16 @@ class World:
         ghost.on_delete()
 
     def on_collision(self, ghost: Ghost):
+        """Handle collision between a ghost and the player."""
         self.remove_ghost(ghost)
 
     def multiply_ghosts(self):
+        """Duplicate all current ghosts."""
         clones = list(map(lambda ghost: ghost.clone(), self.ghosts))
         self.ghosts += clones
 
-    def is_game_over(self):
+    def is_game_over(self) -> bool:
+        """Check game over status."""
         if len(self.ghosts) >= self._max_ghosts:
             return True
         if not self.tile_map.has_dots():
@@ -69,6 +86,7 @@ class World:
         return False
 
     def handle_event_loop(self):
+        """This method gets called every tick."""
         self.update_children()
         self.render_children()
 
@@ -86,16 +104,3 @@ class World:
 
         # Repeat on timer.
         turtle.ontimer(self.handle_event_loop, 100)
-
-    def init(self):
-        turtle.setup(420, 420, 370, 0)
-        turtle.hideturtle()
-        turtle.tracer(False)
-        turtle.listen()
-        turtle.onkey(lambda: self.player.change_aim(5, 0, self.tile_map), "Right")
-        turtle.onkey(lambda: self.player.change_aim(-5, 0, self.tile_map), "Left")
-        turtle.onkey(lambda: self.player.change_aim(0, 5, self.tile_map), "Up")
-        turtle.onkey(lambda: self.player.change_aim(0, -5, self.tile_map), "Down")
-        self.tile_map.initial_render()
-        self.handle_event_loop()
-        turtle.done()

@@ -9,9 +9,11 @@ class TileMap:
         self._turtle = turtle.Turtle(visible=False)
 
     def get(self, index: int) -> int:
+        """Get tile value at index."""
         return self._tiles[index]
 
     def set(self, index: int, value: int):
+        """Set tile value at index."""
         self._tiles[index] = value
 
     def find_tile_index(self, position: vector) -> int:
@@ -54,7 +56,7 @@ class TileMap:
         self._turtle.goto(position.x + 10, position.y + 10)
         self._turtle.dot(2, "white")
 
-    def initial_render(self):
+    def render_background(self):
         turtle.bgcolor("black")
         self._turtle.color("blue")
 
