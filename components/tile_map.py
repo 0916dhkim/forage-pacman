@@ -34,9 +34,10 @@ class TileMap:
 
         return position.x % 20 == 0 or position.y % 20 == 0
 
-    def render_square(self, x: int, y: int):
+    def render_tile(self, index: int):
+        position = self._tile_position(index)
         self._turtle.up()
-        self._turtle.goto(x, y)
+        self._turtle.goto(position.x, position.y)
         self._turtle.down()
         self._turtle.begin_fill()
 
@@ -46,9 +47,10 @@ class TileMap:
 
         self._turtle.end_fill()
 
-    def render_dot(self, x: int, y: int):
+    def render_dot(self, index: int):
+        position = self._tile_position(index)
         self._turtle.up()
-        self._turtle.goto(x + 10, y + 10)
+        self._turtle.goto(position.x + 10, position.y + 10)
         self._turtle.dot(2, "white")
 
     def initial_render(self):
@@ -58,11 +60,16 @@ class TileMap:
         for index in range(len(self._tiles)):
             tile = self._tiles[index]
             if tile > 0:
-                x = (index % 20) * 20 - 200
-                y = 180 - (index // 20) * 20
-                self.render_square(x, y)
+                self.render_tile(index)
                 if tile == 1:
-                    self.render_dot(x, y)
+                    self.render_dot(index)
                 
     def has_dots(self):
+        """True if there is any dots left on this tile map."""
         return any(tile == 1 for tile in self._tiles)
+
+    def _tile_position(self, index: int) -> vector:
+        return vector(
+            (index % 20) * 20 - 200,
+            180 - (index // 20) * 20,
+        )

@@ -22,7 +22,7 @@ class Player:
             context.on_score()
             x = (tile_index % 20) * 20 - 200
             y = 180 - (tile_index // 20) * 20
-            context.tile_map.render_square(x, y)
+            context.tile_map.render_tile(tile_index)
 
     def change_aim(self, x, y, tile_map: TileMap):
         if tile_map.valid(self._position + vector(x, y)):
